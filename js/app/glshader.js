@@ -1,6 +1,6 @@
 define (function () {
-	Shader (ogl, type) {
-		this.gl = ogl;
+	function Shader (ogl, type) {
+		this.gl = ogl.context;
 		this.shader = this.gl.createShader (type);
 	}
 
