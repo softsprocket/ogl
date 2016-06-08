@@ -22,7 +22,24 @@ define (function () {
 
 		prototype.clearColor = function () {
 			this.context.clear (this.context.COLOR_BUFFER_BIT);
-		};	
+		}
+
+		prototype.drawArrays = function (mode, first, count) {
+			this.context.drawArrays (mode, first, count);
+		}
+
+		prototype.uniform4f  = function (location, v0, v1, v2, v3) {
+			this.context.uniform4f (location, v0, v1, v2, v3);
+		}
+
+  		prototype.vertexAttribPointer = function (index, size, type, normalized, stride, offset) {
+  			this.context.vertexAttribPointer (index, size, type, normalized, stride, offset);
+		}
+
+		prototype.enableVertexAttribArray = function (index) {
+			this.context.enableVertexAttribArray (index);
+		}
+
 	};
 });
 

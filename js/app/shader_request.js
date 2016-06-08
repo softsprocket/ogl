@@ -6,6 +6,7 @@ define (['app/glshader'], function (glshader) {
 				console.log (data);
 				var shader = new glshader (ogl, type);
 			       	shader.source (data);
+				shader.compile ();
 				config.success (shader);	
 			},
 			error: config.error 

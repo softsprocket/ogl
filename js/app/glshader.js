@@ -13,15 +13,15 @@ define (function () {
 	}
 
 	Shader.prototype.compile = function () {
-		this.gl.conpileShader (this.shader);
+		this.gl.compileShader (this.shader);
 	}
 
-	Shader.prototype.attach = function () {
-		this.gl.attachShader (this.shader);
+	Shader.prototype.getCompileStatus = function () { 
+		return this.gl.getShaderParameter (this.shader, this.gl.COMPILE_STATUS);
 	}
 
-	Shader.prototype.detach = function () {
-		this.gl.detachShader (this.shader);
+	Shader.prototype.getInfoLog = function () {
+    		return this.gl.getShaderInfoLog (this.shader);
 	}
 
 	return Shader;
