@@ -1,5 +1,5 @@
 define (['app/glfunctions'], function (glfunctions) {
-	function ogl (id) {
+	function GLContext (id) {
 		this.context = null;
 		this.errors = [];
 
@@ -33,8 +33,8 @@ define (['app/glfunctions'], function (glfunctions) {
 
 	}
 
-	glfunctions (ogl.prototype);
+	glfunctions (GLContext.prototype);
 
-	return ogl;
+	return GLContext;
 });
 

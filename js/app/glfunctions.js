@@ -40,6 +40,10 @@ define (function () {
 			this.context.enableVertexAttribArray (index);
 		}
 
+		prototype.useProgram = function  (program) {
+		       this.context.useProgram (program.program);
+		}	       
+
 	};
 });
 
