@@ -9,7 +9,7 @@ requirejs ([ 'lib/jquery', 'app/glcontext', 'app/shader_request', 'app/reference
 		
 function ($, GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) {
 	var gl = new GLContext ("canvas-element-id");
-	gl.setClearColor (0.3, 0.2, 0.7, 1.0);
+	gl.setClearColor (0.0, 0.0, 0.0, 1.0);
 	gl.clearColor (); 
 
 	var referenceCounter = new ReferenceCounter ('shaderuploads', function (args) {
@@ -45,9 +45,18 @@ function ($, GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) 
 
 		gl.useProgram (program);
 
-		var vertices = new Float32Array([
-    			0, 0.5, -0.5, -0.5, 0.5, -0.5
-  		]);
+
+		var pi2 = 2 * Math.PI;
+
+		var points = [];
+		for (var i = 0.0; i < pi2; i += 0.01) {
+			points.push (gl.adjustX (Math.sin (i)));
+			points.push (Math.cos (i));
+		}	
+
+		console.log (gl.aspectRatio, points);
+
+		var vertices = new Float32Array (points);
 
 		var arrayBuffer = new ArrayBuffer (gl);
 		arrayBuffer.data (vertices, gl.context.STATIC_DRAW);
@@ -60,7 +69,7 @@ function ($, GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) 
     			return -1;
   		}
 		
-		gl.vertexAttribPointer (a_Position, 2, gl.context.FLOAT, false, 0, 0);
+		gl.vertexAttribPointer (a_Position, 2, gl.context.FLOAT, false, 8, 0);
 		gl.enableVertexAttribArray (a_Position);
 
 
@@ -74,9 +83,12 @@ function ($, GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) 
 
 		console.log (u_Translation);
 
-		var Tx = 0.5, Ty = 0.5, Tz = 0.0;
-  		gl.uniform4f (u_Translation, Tx, Ty, Tz, 0.0);
-		gl.drawArrays (gl.TRIANGLES, 0, 3);
+		var Tx = 0.0, Ty = 0.0, Tz = 0.0;
+  		gl.uniform4f (u_Translation, Tx, Ty, Tz, 0.75);
+
+
+		gl.clearColor (); 
+		gl.drawArrays (gl.context.POINTS, 0, points.length / 2);
 
 			
 	});	

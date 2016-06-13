@@ -3,14 +3,21 @@ define (function () {
 		prototype.resize = function () {
 			var displayWidth  = this.canvas.clientWidth;
 			var displayHeight = this.canvas.clientHeight;
+				
+			this.aspectRatio = displayHeight / displayWidth;
 
 			if (this.canvas.width  != displayWidth || this.canvas.height != displayHeight) {                        
 
 				this.canvas.width  = displayWidth;
 				this.canvas.height = displayHeight;
 				this.viewport (0, 0, this.canvas.width, this.canvas.height);
+
 			}
 		};
+
+		prototype.adjustX = function (x) {
+			return x * this.aspectRatio;
+		}
 
 		prototype.setClearColor = function (red, green, blue, alpha) {
 			this.context.clearColor(red, green, blue, alpha);
@@ -26,6 +33,10 @@ define (function () {
 
 		prototype.drawArrays = function (mode, first, count) {
 			this.context.drawArrays (mode, first, count);
+		}
+
+		prototype.drawElements = function (mode, count, type, offset) {
+			this.context.drawElements (mode, count, type, offset);
 		}
 
 		prototype.uniform4f  = function (location, v0, v1, v2, v3) {
