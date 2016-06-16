@@ -4,7 +4,10 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) {
 	return function (app) {
 
 		var titleEl = $('#page-title-id');
-	       	titleEl.text ('Sine Waves and WebGL');
+	       	titleEl.text ('WebGL');
+		
+		var headingEl = $('#page-heading-id');
+	       	headingEl.text ('Sine Waves and WebGL');
 
 		var gl = new GLContext ("canvas-element-id");
 		gl.setClearColor (0.0, 0.0, 0.0, 1.0);
