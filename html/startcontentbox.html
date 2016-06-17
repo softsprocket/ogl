@@ -1,0 +1,25 @@
+<span>
+	<header>
+		From start.js:
+	</header>
+	<section>
+		<pre>
+	var pi2 = 2 * Math.PI;
+
+	var points = [];
+	for (var i = 0.0; i < pi2; i += 0.01) {
+		points.push (gl.adjustX (Math.sin (i)));
+		points.push (Math.cos (i));
+	}
+		</pre>	
+	</section>
+	<footer>
+		<span>From glfunctions.js:</span>
+		<pre>	
+	prototype.adjustX = function (x) {
+		return x * this.aspectRatio;
+	}
+		</pre>
+	</footer>	
+</span>
+
