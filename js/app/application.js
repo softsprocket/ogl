@@ -23,6 +23,19 @@ define (function () {
 		return dict;
 	}
 
+	Application.prototype.getAndSetHtml = function (id, url) {
+		$.ajax (url, {
+                        dataType: 'html',
+                        success: function (data) {
+				$(id).html (data);	
+                        },
+                        error: function () {
+				console.error (arguments);
+			} 
+                });
+	
+	}
+
 	return Application;
 
 });
