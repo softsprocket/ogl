@@ -1,0 +1,20 @@
+	
+	
+
+.floating-content-box {
+	border-radius: 25px;
+	border: 2px solid #73AD21;
+	color: #73AD21;
+	padding: 20px;
+	width: 380px;
+	height: 120px;
+}
+
+.main-menu-box {
+	border: 2px solid #73AD21;
+	color: #73AD21;
+	padding: 10px;
+	width: 60px;
+	height: 20px;
+}
+

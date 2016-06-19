@@ -1,7 +1,7 @@
-define ([ 'app/glcontext', 'app/shader_request', 'app/reference_counter', 'app/glprogram', 'app/glarraybuffer' ],
+define ([ 'app/glcontext', 'app/shader_request', 'app/reference_counter', 'app/glprogram', 'app/glarraybuffer', 'app/widgets' ],
 		
-function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) {
-	return function (app) {
+function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, widgets) {
+	return function (queryArgs, application) {
 
 		var titleEl = $('#page-title-id');
 	       	titleEl.text ('WebGL');
@@ -12,6 +12,10 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer) {
 		var gl = new GLContext ("canvas-element-id");
 		gl.setClearColor (0.0, 0.0, 0.0, 1.0);
 		gl.clearColor (); 
+
+		application.getAndSetHtml ("floating-content-box-id", "html/startcontentbox.html", widgets.lowerRightFloatingContentBox);
+
+		widgets.upperLeftFloatingMenuBox ();
 
 		var referenceCounter = new ReferenceCounter ('shaderuploads', function (args) {
 			console.log (args);

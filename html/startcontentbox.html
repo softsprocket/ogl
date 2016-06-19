@@ -1,25 +1,16 @@
 <span>
 	<header>
-		From start.js:
+		Plotted Points
 	</header>
 	<section>
 		<pre>
-	var pi2 = 2 * Math.PI;
-
-	var points = [];
-	for (var i = 0.0; i < pi2; i += 0.01) {
-		points.push (gl.adjustX (Math.sin (i)));
-		points.push (Math.cos (i));
-	}
-		</pre>	
+	i in (0.0, 2PI] 
+	x = sin (i)
+	y = cos (i)
+		</pre>
 	</section>
 	<footer>
-		<span>From glfunctions.js:</span>
-		<pre>	
-	prototype.adjustX = function (x) {
-		return x * this.aspectRatio;
-	}
-		</pre>
+		Note that points are adjusted to the aspect ratio.
 	</footer>	
 </span>
 

@@ -23,11 +23,12 @@ define (function () {
 		return dict;
 	}
 
-	Application.prototype.getAndSetHtml = function (id, url) {
+	Application.prototype.getAndSetHtml = function (id, url, callback) {
 		$.ajax (url, {
                         dataType: 'html',
                         success: function (data) {
-				$(id).html (data);	
+				$('#' + id).html (data);
+				callback ();	
                         },
                         error: function () {
 				console.error (arguments);

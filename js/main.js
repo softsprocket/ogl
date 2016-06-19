@@ -13,11 +13,11 @@ function ($, Application, start) {
 	app.query (function (args) {
 		switch (args[app]) {
 			case 'start': 
-				start (args);	
+				start (args, app);	
 				break;
 
 			default:
-				start (args)
+				start (args, app);
 				break;
 
 		}
