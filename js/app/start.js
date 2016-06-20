@@ -15,8 +15,6 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 
 		application.getAndSetHtml ("floating-content-box-id", "html/startcontentbox.html", widgets.lowerRightFloatingContentBox);
 
-		widgets.upperLeftFloatingMenuBox ();
-
 		var referenceCounter = new ReferenceCounter ('shaderuploads', function (args) {
 			console.log (args);
 			var exit = false;

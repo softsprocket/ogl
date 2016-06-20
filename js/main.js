@@ -5,9 +5,37 @@ requirejs.config({
     	}
 });
 
-requirejs ([ 'lib/jquery', 'app/application', 'app/start' ],
+requirejs ([ 'lib/jquery', 'app/application', 'app/start', 'app/widgets', 'app/menu' ],
 		
-function ($, Application, start) {
+function ($, Application, start, widgets, Menu) {
+
+	var menuItems = [
+		{
+			text: 'Sine, Cosine Circle',
+			enabled: true,
+	  		menu: [
+				{
+					text: 'Points',
+					enabled: true
+				},
+	  			{
+		  			text: 'Points Animated',
+					enabled: true
+				},
+	  			{
+					text: 'Angles Revealed',
+					enabled: true
+				}		
+			]
+			
+		}
+
+	];
+
+
+	var menu = new Menu (document.getElementById ('floating-menu-id'), menuItems);
+
+	console.log (menu.html ());
 
 	var app = new Application ();
 	app.query (function (args) {
@@ -24,6 +52,7 @@ function ($, Application, start) {
 
 	});
 
+	widgets.upperLeftFloatingMenuBox ();
 });
 
 
