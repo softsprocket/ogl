@@ -4,22 +4,21 @@ define (function () {
 		if (!endtag) {
 			htm = '<ul>';
 			htm += gen (config, '</ul>', htm);
+		} else {
 
-		}
-
-
-		for (var i = 0; i < config.length; ++i) {
-			var item = config[i];
-			
-			htm += ('<li>' + item.text);
-		       	
-			if (Array.isArray (item.menu)) {
-				htm += gen (item.menu, '</li>', htm);
+			for (var i = 0; i < config.length; ++i) {
+				var item = config[i];
 				
-			} else {
-				htm += gen ([], '</li>', htm);
-			}	
-			
+				htm += ('<li>' + item.text);
+				
+				if (Array.isArray (item.menu)) {
+					htm += gen (item.menu, '</li>', htm);
+					
+				} else {
+					htm += gen ([], '</li>', htm);
+				}	
+				
+			}
 		}
 
 		if (endtag) {
