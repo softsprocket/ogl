@@ -28,6 +28,21 @@ function ($, Application, start, widgets, Menu) {
 				}		
 			]
 			
+		},
+		{
+			text: 'Complex Sinusoids',
+			enabled: true,
+			menu: [
+				{
+					text: '3D Sine Wave',
+					enabled: true
+
+				},
+				{
+					text: 'Circle In Time',
+					enabled: true
+				}
+			]
 		}
 
 	];
