@@ -1,6 +1,7 @@
 define (function () {
 	function Application () {
 		this.locationObj = window.location;
+
 	}
 
 	Application.prototype.query = function (callback) {

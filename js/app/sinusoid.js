@@ -54,12 +54,13 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 
 			var points = [];
 			var lines = [];
-			for (var i = 0.0; i < pi2; i += 0.01) {
+			for (var i = 0.0; i < (4*pi2); i += 0.01) {
 				lines.push (gl.adjustX (0.0));
 				lines.push (0.0);
 				lines.push (gl.adjustX (Math.sin (i)));
 				lines.push (Math.cos (i));
-				points.push (gl.adjustX (Math.sin (i)));
+				points.push (gl.adjustX(i/pi2));
+				points.push (Math.sin (i));
 				points.push (Math.cos (i));
 			}	
 
@@ -82,7 +83,7 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 			var bufferPointsAndEnable = function () {
 				var arrayBuffer = new ArrayBuffer (gl);
 				arrayBuffer.data (vertices, gl.context.STATIC_DRAW);
-				gl.vertexAttribPointer (a_Position, 2, gl.context.FLOAT, false, 0, 0);
+				gl.vertexAttribPointer (a_Position, 3, gl.context.FLOAT, false, 0, 0);
 				gl.enableVertexAttribArray (a_Position);
 
 				return arrayBuffer;
@@ -116,22 +117,33 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 
 			console.log (u_Translation);
 
-			var Tx = 0.0, Ty = 0.0, Tz = 0.0;
+			var Tx = -1.5, Ty = 0.0, Tz = 0.0;
 			gl.uniform4f (u_Translation, Tx, Ty, Tz, 0.75);
 
 			
 			if (queryArgs && queryArgs.selected) {
 				console.log ('event', queryArgs.selected);
 				switch (queryArgs.selected) {
-					case 'sinepoints':
-						requestAnimationFrame (function () { 
+					case 'complexsine':
+						var menu = document.getElementById ('floating-menu-id');
+						var menuClicked = false;
+						menu.addEventListener ('click', function () {
+							menuClicked = true;
+						});
+						var anim = function () { 
 							gl.clearColor ();
 						       	var arrayBuffer = bufferPointsAndEnable ();	
-							gl.drawArrays (gl.context.POINTS, 0, points.length / 2);
+							gl.drawArrays (gl.context.POINTS, 0, points.length / 3);
 							arrayBuffer.unbind ();
-						});
+
+							if (!menuClicked) {
+								requestAnimationFrame (anim);
+							}
+
+						};
+						requestAnimationFrame (anim);
 						break;
-					case 'sinepointsanimated':
+					case 'complexcircle':
 
 						var menu = document.getElementById ('floating-menu-id');
 						var menuClicked = false;
@@ -139,12 +151,12 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 							menuClicked = true;
 						});
 						var startIndex = 0;
-						var incr = 10;
-						var length = points.length / 2;
+						var incr = 9;
+						var length = points.length / 3;
 						var arrayBuffer = bufferPointsAndEnable ();	
 						var anim = function () { 
 							gl.clearColor ();
-							gl.drawArrays (gl.context.POINTS, startIndex, incr / 2);
+							gl.drawArrays (gl.context.POINTS, startIndex, incr / 3);
 							if (startIndex + incr >= length) {
 								startIndex = 0;
 							} else {
@@ -157,40 +169,6 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 							}
 
 							arrayBuffer.unbind ();
-
-						};
-
-						requestAnimationFrame (anim);
-						break;
-					case 'sinepointsangle':
-								
-						var menu = document.getElementById ('floating-menu-id');
-						var menuClicked = false;
-						menu.addEventListener ('click', function () {
-							menuClicked = true;
-						});
-						var startIndex = 0;
-						var incr = 10;
-						var length = lines.length / 2;
-						var anim = function () { 
-							gl.clearColor ();
-							var arrayBuffer = bufferAngleLinesAndEnable ();
-							gl.drawArrays (gl.context.LINES, startIndex, 2);
-							arrayBuffer.unbind ();			
-							arrayBuffer = bufferStaticLineAndEnable ();
-							gl.drawArrays (gl.context.LINES, 0, 2);
-							arrayBuffer.unbind ();
-
-							if (startIndex + incr >= length) {
-								startIndex = 0;
-							} else {
-								startIndex += incr;
-							}
-
-							
-							if (!menuClicked) {
-								requestAnimationFrame (anim);
-							}
 
 						};
 
@@ -212,7 +190,7 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 
 		referenceCounter.incr (2);
 
-		shader_request (gl, gl.context.VERTEX_SHADER, 'shader/setpos.vs', {
+		shader_request (gl, gl.context.VERTEX_SHADER, 'shader/settpos.vs', {
 			success: function (vshader) {
 				var args = referenceCounter.getArgs ();
 				args.vertexShader = vshader;
@@ -237,4 +215,5 @@ function (GLContext, shader_request, ReferenceCounter, Program, ArrayBuffer, wid
 		
 	}
 });
+
 

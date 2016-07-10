@@ -10,6 +10,10 @@ define (function () {
 		this.gl.bindBuffer (this.target, this.buffer);
 	}
 
+	Buffer.prototype.unbind = function () {
+		this.gl.bindBuffer (this.target, null);
+	}
+
 	Buffer.prototype.delete = function () {
 		this.gl.deleteBuffer (this.buffer);
 	}

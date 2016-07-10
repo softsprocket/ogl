@@ -1,90 +1,94 @@
 define (function () {
-    return {
-        vectorTimesScalar: function (v, s) {
-            var rv = [];
-
-
-            for (var i = 0; i < v.length; ++i) {
-                rv[i] = v[i] * s;
-            }
-
-            return rv;
-        },
-
-        vectorTimesVector: function (v1, v2) {
-            var rv = [];
-
-            for (var i = 0; i < v1.length; ++i) {
-                rv[i] = v1[i] * v2[i];
-            }
-
-            return rv;
-        },
-
-        vectorMinusVector: function (v1, v2) { 
-            var rv = [];
-
-            for (var i = 0; i < v1.length; ++i) {
-                rv[i] = v1[i] * v2[i];
-            }
-
-            return rv;
-        },
-
-        vectorPlusVector: function (v1, v2) { 
-            var rv = [];
-
-            for (var i = 0; i < v1.length; ++i) {
-                rv[i] = v1[i] + v2[i];
-            }
-
-            return rv;
-        },
-
-        magnitude: function (v) {
-            var sum = 0;
-            for (var i = 0; i < v.length; ++i) {
-                sum += (v[i] * v[i]);   
-            }
-
-            return Math.sqrt (sum);
-        },
+	
+	function Vector (x, y, z) {
+		this.x = x ? x : 0;
+		this.y = y ? y : 0;
+		this.z = z ? z : 0;
+	}
+        
+	Vector.prototype.magnitude = function () {
+            return Math.sqrt ((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
+        };
             
-        dotProduct: function (v1, v2) {
-            var products = [];
-            for (var i = 0; i < v1.length; ++v1) {
-                products.push (v1[i] * v2[i]);
-            }
 
-            var sum = 0;
-            for (var i = 0; i < products.length; ++i) {
-                sum += products[i];
-            }
+        Vector.TimesScalar = function (v, s) {
+		return new Vector (
+			v.x * s,
+			v.y * s,
+			v.z * s
+		);
+        };
 
-            return sum;
-        },
+        Vector.TimesVector = function (v1, v2) {
+            	return new Vector (
+			v1.x * v2.x,
+			v1.y * v2.y,
+			v1.z * v2.z			
+		);
+        };
+
+	Vector.PlusVector =  function (v1, v2) { 
+            	return new Vector (
+			v1.x + v2.x,
+			v1.y + v2.y,
+			v1.z + v2.z			
+		);
+        };
+
+	Vector.MinusVector =  function (v1, v2) { 
+            	return new Vector (
+			v1.x - v2.x,
+			v1.y - v2.y,
+			v1.z - v2.z			
+		);
+        };
+
+	Vector.Negate = function (v) {
+		return new Vector (-v.x, -v.y, -v.z);
+	};
+
+        Vector.DotProduct = function (v1, v2) {
+            	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+        };
 
         // v1 onto v2
-        projection: function (v1, v2) {
-            var magq = this.magnitude (v1);
-
-            return this.vectorTimesVector (this.dotProduct (v1, v2) / (magq * magq));
-        },
+        Vector.Projection = function (v1, v2) {
+            	var mag2 = v2.magnitude ();
+            	return Vector.TimesScalar (v2, (Vector.DotProduct (v1, v2) / (mag2 * mag2)));
+        };
         
         // v1 with respect to v2
-        perpendicularComponent: function (v1, v2) {
-            return this.vectorMinusVector (v1, this.projection (v1, v2));
-        },
+        Vector.PerpendicularComponent = function (v1, v2) {
+            	return Vector.MinusVector (v1, Vector.Projection (v1, v2));
+        };
 
         // 3d cross product
-        crossProduct: function (v1, v2) {
-            return {
-                v1[1] * v2[2] - v1[2] * v2[1],
-                v1[2] * v2[0] - v1[0] * v2[2],
-                v1[0] * v2[1] - v1[1] * v2[0]
-            };
-        }
+        Vector.CrossProduct = function (v1, v2) {
+		return new Vector (
+			v1.y * v2.z - v1.z * v2.y,
+			v1.z * v2.x - v1.x * v2.z,
+			v1.x * v2.y - v1.y * v2.x
+		);
+        };
 
-    };
-}):
+	Vector.Orthogonalize = function (vectors) {
+		var orthoset = [ new Vector (vectors[0].x, vectors[0].y, vectors[0].z) ];
+
+		for (var i = 1; i < vectors.length; ++i) {
+			var esummed = new Vector ();
+			for (var k = 0; k < i; ++k) {
+				esummed = Vector.PlusVector (esummed, Vector.Projection (vectors[i], orthoset[k]));
+			}
+			
+			var eprime = Vector.MinusVector (vectors[i], esummed);
+			
+			orthoset.push (eprime);
+
+		}
+
+		return orthoset;
+	}
+
+	return Vector;
+});
     

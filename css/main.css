@@ -21,7 +21,7 @@ body {
 }
 
 .floating-menu {
-	
+	position: relative;
 }
 
 .floating-menu ul {
@@ -36,6 +36,7 @@ body {
 	color: #73AD21;
 	padding: 10px;
 	display: none;
+	background-color: black;
 	
 }
 

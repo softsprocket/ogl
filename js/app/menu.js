@@ -1,15 +1,19 @@
 define (function () {
 	
-	var gen = function (config) {
+	var gen = function (config, z) {
 		var htm = '<ul>';
 		for (var i = 0; i < config.length; ++i) {
 			var item = config[i];
 			
-			htm += ('<li>' + item.text);
-			
+			if (item.id) {	
+				htm += ('<li id="' + item.id + '" style="z-index:' + z +';">' + item.text);
+			} else {
+				htm += ('<li' + ' style="z-index:' + z + ';">' + item.text);
+			}
+
 			if (Array.isArray (item.menu)) {
 				htm += ' >>';
-				htm += gen (item.menu);
+				htm += gen (item.menu, z + 1);
 				
 			}
 			htm += '</li>';
@@ -26,16 +30,15 @@ define (function () {
 			var children = elements[i].children;
 			for (var j = 0; j < children.length; ++j) {
  				children[j].style.display = type;
+				
 			}
 		}			
 	};
 
 	var addDisplayListeners = function (el, cursor) {
 		var children = el.children;
-		console.log (el, 'Children', children);
 		
 		if (children.length > 0) {
-			console.log ('add listener to el', el);	
 			el.addEventListener ('mouseover', function (ev) {
 				ev.srcElement.style.cursor = 'pointer';
 				displayList (el, 'block');
@@ -47,17 +50,35 @@ define (function () {
 		}
 
 		for (var i = 0; i < children.length; ++i) {
-			console.log ('recurse', children[i]);	
 			addDisplayListeners (children[i], cursor);	
 		}
 			
+	};
+
+	var setListeners = function (config) {
+		for (var i = 0; i < config.length; ++i) {
+			var item = config[i];
+			
+			if (item.listeners) {	
+				var el = document.getElementById (item.id);
+				for (var key in item.listeners) {
+					if (item.listeners.hasOwnProperty (key)) {
+						console.log (el, key);
+						el.addEventListener (key, item.listeners[key]);
+					}
+				}
+			}
+			if (item.menu) {
+				setListeners (item.menu);
+			}
+		}
 	};
 
 	function Menu (el, config) {
 		this.element = el;
 		this.config = config;
 
-		this.htm = gen (this.config);
+		this.htm = gen (this.config, 1);
 
 		el.innerHTML = this.htm;
 
@@ -74,7 +95,8 @@ define (function () {
 			displayList (el, 'none');
 		}.bind (this));
 
-		addDisplayListeners (el, this.defaultCursor);
+		addDisplayListeners (el, this.defaultCursor, 0);
+		setListeners (this.config);
 	}
 
 	Menu.prototype.html = function () {
