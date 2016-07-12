@@ -46,7 +46,7 @@ function (Vec3, Vec4) {
 
 	html += 'Let P = &lt;2,2,1,1&gt; and Q = &lt;1,-2,0,1&gt;.\n';
 	html += 'P&#149;Q = ' + dotProduct4 + '.\n';
-	html += 'proj<sub>p</sub>Q = &lt;' + proj4[0] + ', ' + proj4[1] + ', ' + proj4[2] + ', ' + proj4[3] + '&gt;.\n';	
+	html += 'proj<sub>p</sub>Q = &lt;' + proj4[0] + ', ' + proj4[1] + ', ' + proj4[2] + '&gt;.\n';	
 	html += '\n';	
 	html += '</pre>';
 
