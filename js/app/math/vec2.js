@@ -1,9 +1,9 @@
 define (function () {
 	
 	function Vec2 (x, y) {
-		return [x ? x : 0,
+		return new Float32Array ([x ? x : 0,
 			y ? y : 0
-		];
+		]);
 	}
        
 

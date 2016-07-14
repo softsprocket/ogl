@@ -1,11 +1,11 @@
 define (function () {
 	
 	function Vec4 (x, y, z, w) {
-		return [x ? x : 0,
+		return new Float32Array ([x ? x : 0,
 			y ? y : 0,
 			z ? z : 0,
 			w ? w : 0
-		];
+		]);
 	}
        
 

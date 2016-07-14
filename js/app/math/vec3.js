@@ -1,10 +1,10 @@
 define (function () {
 	
 	function Vec3 (x, y, z) {
-		return [x ? x : 0,
+		return new Float32Array ([x ? x : 0,
 			y ? y : 0,
 			z ? z : 0
-		];
+		]);
 	}
        
 

@@ -6,8 +6,8 @@ requirejs.config({
     	}
 });
 
-requirejs (['app/math/vec3', 'app/math/vec4', 'app/math/vec2'],
-function (Vec3, Vec4, Vec2) {
+requirejs (['app/math/vec3', 'app/math/vec4', 'app/math/vec2', 'app/math/matrix'],
+function (Vec3, Vec4, Vec2, Matrix) {
 	var contentEl = document.getElementById ('test-content-id');
 	
 	var p = Vec3 (2, 2, 1);
@@ -32,6 +32,24 @@ function (Vec3, Vec4, Vec2) {
 	var q2 = Vec2 (1, -2);
 	var dotProduct2 = Vec2.DotProduct (p2, q2);
 	var proj2 = Vec2.Projection (q2, p2);
+
+	var m1 = new Matrix (4,4);
+	m1.setValues ([
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	]);	
+
+	var m2 = new Matrix (4,3);
+	m2.setValues ([
+		2,2,3,
+		3,2,2,
+		-1.2,-1.2,-3.5,
+		0,0,1
+	]);
+
+	var m3 = Matrix.multiplyMatrix (m1, m2);
 
 	var html = '<pre>';
 	html += 'Let P = &lt;2,2,1&gt; and Q = &lt;1,-2,0&gt;.\n';
@@ -60,6 +78,12 @@ function (Vec3, Vec4, Vec2) {
 	html += 'proj<sub>p</sub>Q = &lt;' + proj2[0] + ', ' + proj2[1] + '&gt;.\n';	
 	html += '\n';
 
+	html += m1.toString ();
+	html += '\n';
+	html += m2.toString ();
+	html += '\n';
+	html += m3.toString ();
+	html += '\n';
 	html += '</pre>';
 
 	contentEl.innerHTML = html; 
